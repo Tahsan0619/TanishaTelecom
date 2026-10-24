@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product | {site}</title>
+    <link rel="icon" type="image/png" href="assets/images/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=9">
+</head>
+<body data-page="product">
+<div id="site-header"></div>
+
+<main class="page">
+    <div class="container">
+        <div class="breadcrumb" id="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="shop.html">Shop</a></div>
+        <div class="box" id="productBox">
+            <div class="product-detail">
+                <div class="gallery skeleton"></div>
+                <div>
+                    <div class="skeleton" style="height:34px;width:70%;margin-bottom:16px"></div>
+                    <div class="skeleton" style="height:26px;width:40%;margin-bottom:20px"></div>
+                    <div class="skeleton" style="height:90px"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="relatedWrap" class="hidden">
+            <h2 class="section-title">Related products</h2>
+            <div class="product-grid cols-4" id="related"></div>
+        </div>
+    </div>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="assets/js/config.js?v=9"></script>
+<script src="assets/js/app.js?v=9"></script>
+<script src="assets/js/pages/product.js?v=9"></script>
+</body>
+</html>

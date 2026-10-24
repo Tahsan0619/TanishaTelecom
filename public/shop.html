@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop | {site}</title>
+    <meta name="description" content="Browse smartphones, laptops, tablets, smartwatches, earbuds, chargers and accessories.">
+    <link rel="icon" type="image/png" href="assets/images/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=9">
+</head>
+<body data-page="shop">
+<div id="site-header"></div>
+
+<main class="page">
+    <div class="container layout">
+        <div>
+            <div class="breadcrumb" id="breadcrumb"><a href="index.html">Home</a><span>/</span>Shop</div>
+            <div class="active-filters" id="activeFilters"></div>
+            <div class="shop-toolbar">
+                <div class="result-count" id="resultCount">&nbsp;</div>
+                <select id="sortSelect" aria-label="Sort products">
+                    <option value="">Default sorting</option>
+                    <option value="popular">Sort by popularity</option>
+                    <option value="latest">Sort by latest</option>
+                    <option value="price_asc">Sort by price: low to high</option>
+                    <option value="price_desc">Sort by price: high to low</option>
+                </select>
+            </div>
+            <div class="product-grid cols-4" id="shopGrid"></div>
+            <div class="pagination" id="pagination"></div>
+        </div>
+        <aside class="sidebar" id="sidebar"></aside>
+    </div>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="assets/js/config.js?v=9"></script>
+<script src="assets/js/app.js?v=9"></script>
+<script src="assets/js/pages/shop.js?v=9"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | {site}</title>
+    <link rel="icon" type="image/png" href="assets/images/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=9">
+</head>
+<body data-page="contact">
+<div id="site-header"></div>
+
+<main class="page">
+    <div class="container layout">
+        <div class="box">
+            <h1 class="page-title">Contact Us</h1>
+            <form id="contactForm" novalidate>
+                <div data-form-alert class="hidden"></div>
+                <div class="form-group">
+                    <label>Your Name (required)</label>
+                    <input class="form-control" name="name" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Your Email (required)</label>
+                        <input class="form-control" type="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input class="form-control" type="tel" name="phone">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input class="form-control" name="subject">
+                </div>
+                <div class="form-group">
+                    <label>Your Message (required)</label>
+                    <textarea class="form-control" name="message" rows="8" required></textarea>
+                </div>
+                <button class="btn" type="submit">SEND</button>
+            </form>
+        </div>
+        <aside class="sidebar">
+            <div class="widget">
+                <div class="widget-title">Get in touch</div>
+                <ul class="widget-products" id="contactInfo"></ul>
+            </div>
+            <div id="sidebar"></div>
+        </aside>
+    </div>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="assets/js/config.js?v=9"></script>
+<script src="assets/js/app.js?v=9"></script>
+<script>
+App.ready(() => {
+    const { api, esc, toast, showFormErrors, clearFormErrors, setLoading, whatsappUrl } = App;
+    const s = App.settings;
+    App.renderSidebar(document.getElementById('sidebar'), { search: false });
+
+    const row = (icon, html) => `<li style="align-items:center"><i class="${icon}" style="color:var(--primary);width:22px;font-size:16px"></i><span>${html}</span></li>`;
+    document.getElementById('contactInfo').innerHTML = [
+        s.address && row('fa-solid fa-location-dot', esc(s.address)),
+        s.phone && row('fa-solid fa-phone', `<a href="tel:${esc(s.phone)}">${esc(s.phone)}</a>`),
+        s.whatsapp && row('fa-brands fa-whatsapp', `<a href="${esc(whatsappUrl(s.whatsapp))}" target="_blank" rel="noopener">WhatsApp: ${esc(s.whatsapp)}</a>`),
+        s.email && row('fa-solid fa-envelope', `<a href="mailto:${esc(s.email)}">${esc(s.email)}</a>`),
+        s.facebook && row('fa-brands fa-facebook', `<a href="${esc(s.facebook)}" target="_blank" rel="noopener">Facebook page</a>`),
+    ].filter(Boolean).join('');
+
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearFormErrors(form);
+        const btn = form.querySelector('button[type=submit]');
+        setLoading(btn, true, 'Sending…');
+        try {
+            const res = await api('/contact', { method: 'POST', body: Object.fromEntries(new FormData(form).entries()), auth: false });
+            form.reset();
+            const alertBox = form.querySelector('[data-form-alert]');
+            alertBox.className = 'alert alert-success';
+            alertBox.textContent = res.message;
+            toast('Message sent!');
+        } catch (err) {
+            showFormErrors(form, err);
+        } finally {
+            setLoading(btn, false);
+        }
+    });
+});
+</script>
+</body>
+</html>

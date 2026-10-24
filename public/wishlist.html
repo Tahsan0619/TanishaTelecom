@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist | {site}</title>
+    <link rel="icon" type="image/png" href="assets/images/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=9">
+</head>
+<body data-page="wishlist">
+<div id="site-header"></div>
+
+<main class="page">
+    <div class="container">
+        <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Wishlist</div>
+        <h1 class="page-title">My Wishlist</h1>
+        <div id="wishlistContent"></div>
+    </div>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="assets/js/config.js?v=9"></script>
+<script src="assets/js/app.js?v=9"></script>
+<script>
+App.ready(async () => {
+    const { api, productCard, emptyBox, Wishlist } = App;
+    const root = document.getElementById('wishlistContent');
+
+    function render(products) {
+        root.innerHTML = products.length
+            ? `<div class="product-grid">${products.map(productCard).join('')}</div>`
+            : emptyBox('fa-heart', 'Your wishlist is empty', 'Tap the heart on any product to save it here.',
+                '<a href="shop.html" class="btn" style="margin-top:10px">Browse products</a>');
+    }
+
+    // Show saved data immediately, then refresh with live prices/stock.
+    render(Wishlist.items());
+    document.addEventListener('wishlist:changed', () => render(Wishlist.items()));
+
+    const ids = Wishlist.items().map((i) => i.id);
+    if (!ids.length) return;
+    try {
+        const res = await api('/products?per_page=100&ids=' + ids.join(','), { auth: false });
+        const alive = new Set(res.data.map((p) => p.id));
+        Wishlist.items().filter((i) => !alive.has(i.id)).forEach((i) => Wishlist.remove(i.id));
+        render(res.data);
+    } catch (e) { /* keep cached view */ }
+});
+</script>
+</body>
+</html>
